@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 import excelTest
+import question
 
 
 def find(name, path):  # This is so the program can search for where the webdriver file is on the user's computer
@@ -58,11 +59,14 @@ def nav(  # reminder to future me to pass input here to determine which option w
 
 def main():
     option = ""
+    pool = list()
+
     while True:
         print("1: Create Test File\n")
         print("2: Upload Test\n")
         print("3: Upload Test Pool\n")
         print("4: Create Test From Existing Pools\n")
+        print("5: Reading questions temporary test function\n")
         print("q: Quit")
         option = input("Select Option:")
 
@@ -74,6 +78,11 @@ def main():
             nav()
         if option == "4":
             nav()
+        if option == "5":
+            excelTest.load_questions(pool)
+            for x in range(len(pool)):
+                pool[x].print_question()
+
         if option == "q":
             break
 

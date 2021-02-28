@@ -1,6 +1,7 @@
 import openpyxl
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.utils import get_column_letter
+import question
 
 
 def create_file():
@@ -65,7 +66,116 @@ def create_file():
         mySheet[column].font = Font(size=14, bold=True)
         mySheet[column].alignment = Alignment(horizontal="center")
         mySheet[column].fill = PatternFill(start_color="00ffcc", fill_type="solid")
-        # Thanks to user "crifan" on Stack Overflow for the right side of the assignment operator on the above line
+        # Thanks to user "crifan" on Stack Overflow for explaining how to use PatternFill
         # https://stackoverflow.com/questions/35918504/adding-a-background-color-to-cell-openpyxl
 
     wb1.save(filepath)
+
+
+def load_questions(pool):
+
+    filepath = "C:/Users/EvanS/Desktop/test.xlsx"
+
+    wb1 = openpyxl.load_workbook(filepath)
+
+
+
+
+    mySheet = wb1['Sheet']
+    letters = ["C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]
+   # i = 2
+   # end = 0
+   # while True:
+   #     for x in letters:
+   #         cell = x + str(i)
+   #         if str(mySheet[cell].value) == "None":
+   #             end = 1
+   #             break
+   #         else:
+   #             question.text = str(mySheet[cell].value)
+   #             question.r1 = str(mySheet[cell].value)
+   #             # pool.append(question)
+
+    #    if end == 1:
+    #        break
+
+     #   else:
+      #      i = i + 1
+
+    i = 2
+    end = 0
+    while True:
+        cell = "C" + str(i)
+        if str(mySheet[cell].value) == "None":
+            end = 1
+            break
+        else:
+            something = question.Question()
+            something.text = str(mySheet[cell].value)
+            cell = "D" + str(i)
+            something.r1 = str(mySheet[cell].value)
+            cell = "E" + str(i)
+            something.r2 = str(mySheet[cell].value)
+            cell = "F" + str(i)
+            something.r3 = str(mySheet[cell].value)
+            cell = "G" + str(i)
+            something.r4 = str(mySheet[cell].value)
+            cell = "H" + str(i)
+            something.r5 = str(mySheet[cell].value)
+            cell = "I" + str(i)
+            something.r6 = str(mySheet[cell].value)
+            cell = "J" + str(i)
+            something.r7 = str(mySheet[cell].value)
+            cell = "K" + str(i)
+            something.r8 = str(mySheet[cell].value)
+            cell = "L" + str(i)
+            something.w1 = str(mySheet[cell].value)
+            cell = "M" + str(i)
+            something.w2 = str(mySheet[cell].value)
+            cell = "N" + str(i)
+            something.w3 = str(mySheet[cell].value)
+            cell = "O" + str(i)
+            something.w4 = str(mySheet[cell].value)
+            cell = "P" + str(i)
+            something.w5 = str(mySheet[cell].value)
+            cell = "Q" + str(i)
+            something.w6 = str(mySheet[cell].value)
+            cell = "R" + str(i)
+            something.w7 = str(mySheet[cell].value)
+            cell = "S" + str(i)
+            something.w8 = str(mySheet[cell].value)
+            cell = "T" + str(i)
+            something.correct = str(mySheet[cell].value)
+            cell = "U" + str(i)
+            something.incorrect = str(mySheet[cell].value)
+            something.num_right = 0
+            if something.r1 != "None":
+                something.num_right += 1
+            if something.r2 != "None":
+                something.num_right += 1
+            if something.r3 != "None":
+                something.num_right += 1
+            if something.r4 != "None":
+                something.num_right += 1
+            if something.r5 != "None":
+                something.num_right += 1
+            if something.r6 != "None":
+                something.num_right += 1
+            if something.r7 != "None":
+                something.num_right += 1
+            if something.r8 != "None":
+                something.num_right += 1
+
+            pool.append(something)
+
+        if end == 1:
+            break
+        else:
+            i = i + 1
+
+
+    # question.text = str(mySheet['C3'].value)
+    # question.r1 = str(mySheet['D3'].value)
+    #pool.append(question)
+    #print("Hello world\n")
+
