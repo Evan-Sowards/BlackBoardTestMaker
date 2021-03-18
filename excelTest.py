@@ -7,7 +7,7 @@ import question
 def create_file():
 
     wb = openpyxl.Workbook()
-    filepath = "C:/Users/EvanS/Desktop/test.xlsx"
+    filepath = "C:/Users/Public/Desktop/test.xlsx"
     wb.save(filepath)
 
     wb1 = openpyxl.load_workbook(filepath)
@@ -72,14 +72,9 @@ def create_file():
     wb1.save(filepath)
 
 
-def load_questions(pool):
-
-    filepath = "C:/Users/EvanS/Desktop/test.xlsx"
+def load_questions(pool, filepath):
 
     wb1 = openpyxl.load_workbook(filepath)
-
-
-
 
     mySheet = wb1['Sheet']
     letters = ["C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]
@@ -178,4 +173,19 @@ def load_questions(pool):
     # question.r1 = str(mySheet['D3'].value)
     #pool.append(question)
     #print("Hello world\n")
+
+def getCourseName(filepath):
+    wb1 = openpyxl.load_workbook(filepath)
+
+    mySheet = wb1['Sheet']
+
+    return str(mySheet['A2'].value)
+
+
+def getTestName(filepath):
+    wb1 = openpyxl.load_workbook(filepath)
+
+    mySheet = wb1['Sheet']
+
+    return str(mySheet['B2'].value)
 
