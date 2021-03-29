@@ -161,6 +161,24 @@ def load_questions(pool, filepath):
             if something.r8 != "None":
                 something.num_right += 1
 
+            something.num_wrong = 0
+            if something.w1 != "None":
+                something.num_wrong += 1
+            if something.w2 != "None":
+                something.num_wrong += 1
+            if something.w3 != "None":
+                something.num_wrong += 1
+            if something.w4 != "None":
+                something.num_wrong += 1
+            if something.w5 != "None":
+                something.num_wrong += 1
+            if something.w6 != "None":
+                something.num_wrong += 1
+            if something.w7 != "None":
+                something.num_wrong += 1
+            if something.w8 != "None":
+                something.num_wrong += 1
+
             pool.append(something)
 
         if end == 1:

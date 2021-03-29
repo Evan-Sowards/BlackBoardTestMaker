@@ -7,8 +7,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 import excelTest
 import question
+import time
 
 
 def find(name, path):  # This is so the program can search for where the webdriver file is on the user's computer
@@ -45,8 +47,9 @@ def nav(num):
     username = ""  # Clears the username and password immediately after usage
     password = ""
 
+    # note: 5 works well, use variable
     try:
-        WebDriverWait(driver, .001).until(ec.url_matches('https://bb.nsuok.edu/ultra'))
+        WebDriverWait(driver, 5).until(ec.url_matches('https://bb.nsuok.edu/ultra'))
     except TimeoutError:
         print('took too  long')
 
@@ -65,6 +68,296 @@ def nav(num):
         createTest(driver, filepath)
     if num == 3:
         createPool(driver, filepath)
+
+    # Putting in questions
+
+    pool = list()
+
+    excelTest.load_questions(pool, filepath)
+
+    size = len(pool)
+
+    actions = ActionChains(driver)
+
+    for i in range(size):
+        if pool[i].num_right == 0:
+            driver.find_element_by_xpath('//*[@id="nav"]/li[1]').click()
+            driver.find_element_by_link_text('Short Answer').click()
+            iframe = driver.find_element_by_xpath('//*[@id="questionText.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].text)
+            driver.switch_to.parent_frame()
+            # Setting question text
+
+            html = driver.find_element_by_tag_name('html')
+            for k in range(20):
+                html.send_keys(Keys.ARROW_DOWN)
+
+            iframe = driver.find_element_by_xpath('//*[@id="answerText.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].correct)
+            driver.switch_to.parent_frame()
+            # Setting Answer Feedback
+
+            driver.find_element_by_xpath('//*[@id="bottom_submitButtonRow"]/input[3]').click()
+
+        elif pool[i].num_right == 1:
+            driver.find_element_by_xpath('//*[@id="nav"]/li[1]').click()
+            driver.find_element_by_link_text('Multiple Choice').click()
+
+            total = pool[i].num_right + pool[i].num_wrong
+            total = total - 3
+            num_string = '//*[@id="answerList.answerCountId"]/option[' + str(total) + ']'
+            driver.find_element_by_xpath(num_string).click()
+            # Setting number of question options
+            # time.sleep(3)
+
+            iframe = driver.find_element_by_xpath('//*[@id="questionText.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].text)
+            driver.switch_to.parent_frame()
+            # Setting question text
+
+            driver.find_element_by_xpath('//*[@id="numberTypeAsStringId"]/option[5]').click()
+            # option for how questions are labeled (a, b, c; 1, 2, 3; j, ii, iii; etc.)
+
+            driver.find_element_by_xpath('//*[@id="randomOrderId"]').click()
+            # option for randomization of answer order
+
+            for j in range(total + 3):
+                html = driver.find_element_by_tag_name('html')
+                for k in range(11):
+                    html.send_keys(Keys.ARROW_DOWN)
+
+                iframe = driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].textForm.text_ifr"]')
+                driver.switch_to.frame(iframe)
+                element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+                element.click()
+
+                if j == 0:
+                    element.send_keys(pool[i].r1)
+                if j == 1:
+                    element.send_keys(pool[i].w1)
+                if j == 2:
+                    element.send_keys(pool[i].w2)
+                if j == 3:
+                    element.send_keys(pool[i].w3)
+                if j == 4:
+                    element.send_keys(pool[i].w4)
+                if j == 5:
+                    element.send_keys(pool[i].w5)
+                if j == 6:
+                    element.send_keys(pool[i].w6)
+                if j == 7:
+                    element.send_keys(pool[i].w7)
+                if j == 8:
+                    element.send_keys(pool[i].w8)
+
+                driver.switch_to.parent_frame()
+                # Putting answer choices
+
+            html = driver.find_element_by_tag_name('html')
+            for k in range(15):
+                html.send_keys(Keys.ARROW_DOWN)
+            iframe = driver.find_element_by_xpath('//*[@id="correctFeedbackForm.textForm.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].correct)
+            driver.switch_to.parent_frame()
+            # Correct Feedback
+
+            iframe = driver.find_element_by_xpath('//*[@id="incorrectFeedbackForm.textForm.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].incorrect)
+            driver.switch_to.parent_frame()
+            # Incorrect Feedback
+
+            driver.find_element_by_xpath('//*[@id="bottom_submitButtonRow"]/input[3]').click()
+
+        else:
+            driver.find_element_by_xpath('//*[@id="nav"]/li[1]').click()
+            driver.find_element_by_link_text('Multiple Answer').click()
+
+            total = pool[i].num_right + pool[i].num_wrong
+            total = total - 3
+            num_string = '//*[@id="fAnswerListAnswerCount"]/option[' + str(total) + ']'
+            driver.find_element_by_xpath(num_string).click()
+            # Setting number of question options
+
+            driver.find_element_by_xpath('//*[@id="fNumberTypeAsString"]/option[5]').click()
+            # option for how questions are labeled (a, b, c; 1, 2, 3; j, ii, iii; etc.)
+
+            iframe = driver.find_element_by_xpath('//*[@id="questionText.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].text)
+            driver.switch_to.parent_frame()
+            # Setting question text
+
+            # driver.find_element_by_xpath('//*[@id="fPartialCredit"]').click()
+            # Option for partial credit; this will be off by default, but can be enabled from the options file
+            # Also, reminder to myself that I need to make the options file
+
+            html = driver.find_element_by_tag_name('html')
+            for k in range(12):
+                html.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+
+            if not driver.find_element_by_xpath('//*[@id="fRandomOrder"]').get_attribute('checked'):
+                driver.find_element_by_xpath('//*[@id="fRandomOrder"]').click()
+                # option for randomization of answer order
+                # time.sleep(5)
+
+            right = pool[i].num_right
+            wrong = pool[i].num_wrong
+
+            for j in range(total + 3):
+                html = driver.find_element_by_tag_name('html')
+                for k in range(10):
+                    html.send_keys(Keys.ARROW_DOWN)
+
+                iframe = driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].textForm.text_ifr"]')
+                driver.switch_to.frame(iframe)
+                element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+                element.click()
+
+                if pool[i].r1 != "None":
+                    element.send_keys(pool[i].r1)
+                    driver.switch_to.parent_frame()
+                    if not driver.find_element_by_xpath(
+                            '//*[@id="answerList.answer[' + str(j) + '].correct"]').get_attribute('checked'):
+                        driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r1 = "None"
+                    continue
+
+                if pool[i].r2 != "None":
+                    element.send_keys(pool[i].r2)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r2 = "None"
+                    continue
+
+                if pool[i].r3 != "None":
+                    element.send_keys(pool[i].r3)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r3 = "None"
+                    continue
+
+                if pool[i].r4 != "None":
+                    element.send_keys(pool[i].r1)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r4 = "None"
+                    continue
+
+                if pool[i].r5 != "None":
+                    element.send_keys(pool[i].r5)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r5 = "None"
+                    continue
+
+                if pool[i].r6 != "None":
+                    element.send_keys(pool[i].r6)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r6 = "None"
+                    continue
+
+                if pool[i].r7 != "None":
+                    element.send_keys(pool[i].r7)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r7 = "None"
+                    continue
+
+                if pool[i].r8 != "None":
+                    element.send_keys(pool[i].r8)
+                    driver.switch_to.parent_frame()
+                    driver.find_element_by_xpath('//*[@id="answerList.answer[' + str(j) + '].correct"]').click()
+                    pool[i].r8 = "None"
+                    continue
+
+                if pool[i].w1 != "None":
+                    element.send_keys(pool[i].w1)
+                    driver.switch_to.parent_frame()
+                    pool[i].w1 = "None"
+                    continue
+
+                if pool[i].w2 != "None":
+                    element.send_keys(pool[i].w2)
+                    driver.switch_to.parent_frame()
+                    pool[i].w2 = "None"
+                    continue
+
+                if pool[i].w3 != "None":
+                    element.send_keys(pool[i].w3)
+                    driver.switch_to.parent_frame()
+                    pool[i].w3 = "None"
+                    continue
+
+                if pool[i].w4 != "None":
+                    element.send_keys(pool[i].w4)
+                    driver.switch_to.parent_frame()
+                    pool[i].w4 = "None"
+                    continue
+
+                if pool[i].w5 != "None":
+                    element.send_keys(pool[i].w5)
+                    driver.switch_to.parent_frame()
+                    pool[i].w5 = "None"
+                    continue
+
+                if pool[i].w6 != "None":
+                    element.send_keys(pool[i].w6)
+                    driver.switch_to.parent_frame()
+                    pool[i].w6 = "None"
+                    continue
+
+                if pool[i].w7 != "None":
+                    element.send_keys(pool[i].w7)
+                    driver.switch_to.parent_frame()
+                    pool[i].w7 = "None"
+                    continue
+
+                if pool[i].w8 != "None":
+                    element.send_keys(pool[i].w8)
+                    driver.switch_to.parent_frame()
+                    pool[i].w8 = "None"
+                    continue
+                # Entering Answers
+
+            html = driver.find_element_by_tag_name('html')
+            for k in range(15):
+                html.send_keys(Keys.ARROW_DOWN)
+            iframe = driver.find_element_by_xpath('//*[@id="correctFeedbackForm.textForm.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].correct)
+            driver.switch_to.parent_frame()
+            # Correct Feedback
+
+            iframe = driver.find_element_by_xpath('//*[@id="incorrectFeedbackForm.textForm.text_ifr"]')
+            driver.switch_to.frame(iframe)
+            element = driver.find_element_by_xpath('//*[@id="tinymce"]/p')
+            element.click()
+            element.send_keys(pool[i].incorrect)
+            driver.switch_to.parent_frame()
+            # Incorrect Feedback
+
+            driver.find_element_by_xpath('//*[@id="bottom_submitButtonRow"]/input[3]').click()
 
 
 def createTest(driver, filepath):
@@ -108,16 +401,17 @@ def createPool(driver, filepath):
 
     driver.find_element_by_xpath('//*[@id="bottom_Submit"]').click()
 
+
+
+
 def main():
     option = ""
     pool = list()
 
-    while True:
+    while option != "q":
         print("1: Create Test File\n")
         print("2: Upload Test\n")
         print("3: Upload Test Pool\n")
-        print("4: Create Test From Existing Pools\n")
-        print("5: Reading questions temporary test function\n")
         print("q: Quit")
         option = input("Select Option:")
 
@@ -127,15 +421,10 @@ def main():
             nav(2)
         if option == "3":
             nav(3)
-        if option == "4":
-            nav(4)
         if option == "5":
-            excelTest.load_questions(pool)
-            for x in range(len(pool)):
+           excelTest.load_questions(pool, "C:/Users/EvanS/Desktop/test.xlsx")
+           for x in range(len(pool)):
                 pool[x].print_question()
-
-        if option == "q":
-            sys.exit()
 
 
 if __name__ == "__main__":

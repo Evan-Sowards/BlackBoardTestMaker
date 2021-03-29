@@ -3,7 +3,7 @@
 class Question:
     def __init__(self, text="", r1 = "", r2 = "", r3 = "", r4 = "", r5 = "", r6 = "", r7 = "", r8 = "",
                  w1= "", w2 = "", w3 = "", w4 = "", w5 = "", w6 = "", w7 = "", w8 = "", correct = "", incorrect = "",
-                 num_right = 0):
+                 num_right = 0, num_wrong = 0):
 
         self.text = text
         self.r1 = r1
@@ -25,6 +25,7 @@ class Question:
         self.correct = correct
         self.incorrect = incorrect
         self.num_right = num_right
+        self.num_wrong = num_wrong
 
     def print_question(self):
         print(self.text + "\n")
@@ -47,6 +48,7 @@ class Question:
         print(self.correct + "\n")
         print(self.incorrect + "\n")
         print(str(self.num_right) + "\n")
+        print(str(self.num_wrong) + "\n")
 
 
 
