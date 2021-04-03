@@ -1,4 +1,4 @@
-# This is where I'll make the object classes for Python
+# This is where the question object is defined
 
 class Question:
     def __init__(self, text="", r1 = "", r2 = "", r3 = "", r4 = "", r5 = "", r6 = "", r7 = "", r8 = "",

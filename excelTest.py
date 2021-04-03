@@ -1,16 +1,17 @@
 import openpyxl
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-from openpyxl.utils import get_column_letter
 import question
+import getpass
+import os
 
 
-def create_file():
+def create_file(testName):
 
     wb = openpyxl.Workbook()
-    filepath = "C:/Users/Public/Desktop/test.xlsx"
-    wb.save(filepath)
+    filepath = "/Desktop/" + testName + ".xlsx"
+    wb.save('C:/Users/' + getpass.getuser() + filepath)
 
-    wb1 = openpyxl.load_workbook(filepath)
+    wb1 = openpyxl.load_workbook('C:/Users/' + getpass.getuser() + filepath)
 
     mySheet = wb1['Sheet']
 
@@ -69,7 +70,7 @@ def create_file():
         # Thanks to user "crifan" on Stack Overflow for explaining how to use PatternFill
         # https://stackoverflow.com/questions/35918504/adding-a-background-color-to-cell-openpyxl
 
-    wb1.save(filepath)
+    wb1.save('C:/Users/' + getpass.getuser() + filepath)
 
 
 def load_questions(pool, filepath):
@@ -78,24 +79,6 @@ def load_questions(pool, filepath):
 
     mySheet = wb1['Sheet']
     letters = ["C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]
-   # i = 2
-   # end = 0
-   # while True:
-   #     for x in letters:
-   #         cell = x + str(i)
-   #         if str(mySheet[cell].value) == "None":
-   #             end = 1
-   #             break
-   #         else:
-   #             question.text = str(mySheet[cell].value)
-   #             question.r1 = str(mySheet[cell].value)
-   #             # pool.append(question)
-
-    #    if end == 1:
-    #        break
-
-     #   else:
-      #      i = i + 1
 
     i = 2
     end = 0
@@ -187,11 +170,6 @@ def load_questions(pool, filepath):
             i = i + 1
 
 
-    # question.text = str(mySheet['C3'].value)
-    # question.r1 = str(mySheet['D3'].value)
-    #pool.append(question)
-    #print("Hello world\n")
-
 def getCourseName(filepath):
     wb1 = openpyxl.load_workbook(filepath)
 
@@ -206,4 +184,99 @@ def getTestName(filepath):
     mySheet = wb1['Sheet']
 
     return str(mySheet['B2'].value)
+
+
+def getRandom():
+    option_filepath = find("options.xlsx", "C:/Users")
+    wb1 = openpyxl.load_workbook(option_filepath)
+
+    mySheet = wb1['Sheet']
+
+    if str(mySheet['B3'].value) == '1':
+        return '1'
+    elif str(mySheet['B3'].value) == '0':
+        return '0'
+    else:
+        mySheet['A3'] = 'Question Order Randomization'
+        mySheet['B3'] = '1'
+        wb1.save(option_filepath)
+        return '1'
+
+
+def getPartialCredit():
+    option_filepath = find("options.xlsx", "C:/Users")
+    wb1 = openpyxl.load_workbook(option_filepath)
+
+    mySheet = wb1['Sheet']
+
+    if str(mySheet['B4'].value) == '1':
+        return '1'
+    elif str(mySheet['B4'].value) == '0':
+        return '0'
+    else:
+        mySheet['A4'] = 'Partial Credit for Multiple Answer Questions'
+        mySheet['B4'] = '0'
+        wb1.save(option_filepath)
+        return '0'
+
+
+def getQuestionOrderStyle():
+    option_filepath = find("options.xlsx", "C:/Users")
+    wb1 = openpyxl.load_workbook(option_filepath)
+
+    mySheet = wb1['Sheet']
+
+    if str(mySheet['B2'].value) == '1':
+        return '1'
+    elif str(mySheet['B2'].value) == '2':
+        return '2'
+    elif str(mySheet['B2'].value) == '3':
+        return '3'
+    elif str(mySheet['B2'].value) == '4':
+        return '4'
+    elif str(mySheet['B2'].value) == '5':
+        return '5'
+    else:
+        mySheet['A2'] = 'Answer Numbering'
+        mySheet['B2'] = '5'
+        wb1.save(option_filepath)
+        return '5'
+
+
+def optionsFile():  # Makes sure options file exists and creates it if it doesn't
+    option_filepath = find("options.xlsx", "C:/Users")
+    if option_filepath == "None":
+        wb = openpyxl.Workbook()
+        wb.save('C:/Users/' + getpass.getuser() + '/Downloads/BlackBoardTestMaker-main/options.xlsx')
+
+        wb1 = openpyxl.load_workbook('C:/Users/' + getpass.getuser() +
+                                     '/Downloads/BlackBoardTestMaker-main/options.xlsx')
+
+        mySheet = wb1['Sheet']
+
+        mySheet['A1'] = 'Option'
+        mySheet['A2'] = 'Answer Numbering'
+        mySheet['A3'] = 'Question Order Randomization'
+        mySheet['A4'] = 'Partial Credit for Multiple Answer Questions'
+
+        mySheet['B1'] = 'Value'
+        mySheet['B2'] = '5'
+        mySheet['B3'] = '1'
+        mySheet['B4'] = '0'
+        wb1.save('C:/Users/' + getpass.getuser() + '/Downloads/BlackBoardTestMaker-main/options.xlsx')
+    return option_filepath
+
+
+def find(name, path):  # This is so the program can search for where the webdriver file is on the user's computer
+    placeholder = ""
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            placeholder = os.path.join(root, name)
+            break
+        else:
+            placeholder = "None"
+
+    return placeholder
+
+
 
