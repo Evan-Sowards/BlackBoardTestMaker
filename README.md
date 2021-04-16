@@ -31,7 +31,7 @@ You'll need some way of running python files, such as VS Code, PyCharm, or the W
 
 When you run bbAutoTestMaker.py, you will see a menu:
 
-[pic]
+![menu](https://github.com/[Evan-Sowards]/[BlackBoardTestMaker]/blob/[main]/[pics]/menu.png?raw=true)
 
 1: Create a file
 
