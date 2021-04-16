@@ -70,12 +70,12 @@ There are three options that can be changed in the included options.xlsx file. I
 5. Lowercase Letters (a, b, c)
 
 **Randomness:**
-0. off
-1. on
+0: Off
+1: On
 
 **Partial Credit:**
-0. off
-1. on
+0: Off
+1: On
 
 
 **NOTE:** Randomness must be turned on in the options file, or the right answer will always be at the top.
