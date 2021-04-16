@@ -62,7 +62,7 @@ There are three options that can be changed in the included options.xlsx file. I
 
 ![options](https://github.com/Evan-Sowards/BlackBoardTestMaker/blob/34918a85628fa41bb5fffd920a4e1bbf0e50902c/pics/options.PNG?raw=true)
 
-**Answer Numbering:**
+#### Answer Numbering:
 
 1. None
 2. Arabic Numerals (1, 2, 3)
@@ -70,17 +70,17 @@ There are three options that can be changed in the included options.xlsx file. I
 4. Uppercase Letters (A, B, C)
 5. Lowercase Letters (a, b, c)
 
-**Randomness:**
+#### Randomness:
 
-  0: Off
+  **0:** Off
   
-  1: On
+  **1:** On
 
-**Partial Credit:**
+#### Partial Credit:
 
-  0: Off
+  **0:** Off
 
-  1: On
+  **1:** On
 
 
 **NOTE:** Randomness must be turned on in the options file, or the right answer will always be at the top.
