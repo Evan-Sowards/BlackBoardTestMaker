@@ -35,7 +35,7 @@ When you run bbAutoTestMaker.py, you will see a menu:
 
 
 
-**1: Create a file**
+#### 1: Create a file
 
 This creates a blank, pre-formatted .xlsx file for you to fill in. You will be asked to name the file. You do not need to include the ".xlsx" extension to your file name.
 
@@ -49,7 +49,7 @@ Multiple choice and multiple answer questions need to have a minimum of 4 possib
 
 For short answer questions, question feedback needs to be put under "Correct Feedback".
 
-**2 and 3: Upload a test/pool**
+#### 2 and 3: Upload a test/pool
 
 Both of these will ask you to do the same thing. The only difference is option 2 creates a test, while option 3 creates a pool of questions.
 
