@@ -60,7 +60,7 @@ You will first be asked to enter your NSU username and password. Then you will b
 
 There are three options that can be changed in the included options.xlsx file. If a number that doesn't correspond to a valid setting is entered (e.g., 9 for answer numbering) the program will reset the options. The defaults (in order) are 5, 1, 0.
 
-[pic showing defaults]
+![options](https://github.com/Evan-Sowards/BlackBoardTestMaker/blob/34918a85628fa41bb5fffd920a4e1bbf0e50902c/pics/options.PNG?raw=true)
 
 Answer Numbering:
 1: None
