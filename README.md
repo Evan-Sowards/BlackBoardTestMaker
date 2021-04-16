@@ -9,22 +9,22 @@
 
 ### Introduction
 
-Blackboard Automatic Test Uploader is a Python program that uses Selenium WebDriver to quickly upload tests and test pools to Blackboard. It was made for professors at my school.
+Blackboard Automatic Test Uploader is a Python program on Windows computers that uses Selenium WebDriver to quickly upload tests and test pools to Blackboard. It was made for professors at my school.
 
 
 ### Requirements
 
 There are a few things that need to be installed before you can run Blackboard Automatic Test Uploader:
 
-* Selenium WebDriver
-* Chromedriver
-* Ruby
-* Python
-* Openpyxl
+* [Selenium WebDriver](https://www.geeksforgeeks.org/how-to-install-selenium-in-python/)
+* [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+* [Ruby](https://rubyinstaller.org/)
+* [Python](https://www.python.org/downloads/)
+* [Openpyxl](https://openpyxl.readthedocs.io/en/stable/#installation)
 
 ### Set up
 
-You'll need some way of running python files, such as VS Code, PyCharm, or the Windows Command Prompt. You'll need to make sure you have the chromedriver.exe file somewhere in the C://Users path (e.g., your Downloads folder). Once you have all of the required software listed in the Requirements section, download the code for Blackboard Automatic Test Uploader and run bbAutoTestMaker.py.
+You'll need some way of running python files, such as [VS Code](https://code.visualstudio.com/download), [PyCharm](https://www.jetbrains.com/pycharm/download/#section=windows), or the Windows Command Prompt. You'll need to make sure you have the chromedriver.exe file somewhere in the C://Users path (e.g., your Downloads folder). Once you have all of the required software listed in the Requirements section, download the code for Blackboard Automatic Test Uploader and run bbAutoTestMaker.py.
 
 
 ### Instructions
@@ -35,7 +35,7 @@ When you run bbAutoTestMaker.py, you will see a menu:
 
 
 
-1: Create a file
+**1: Create a file**
 
 This creates a blank, pre-formatted .xlsx file for you to fill in. You will be asked to name the file. You do not need to include the ".xlsx" extension to your file name.
 
@@ -49,7 +49,7 @@ Multiple choice and multiple answer questions need to have a minimum of 4 possib
 
 For short answer questions, question feedback needs to be put under "Correct Feedback".
 
-2 and 3: Upload a test/pool
+**2 and 3: Upload a test/pool**
 
 Both of these will ask you to do the same thing. The only difference is option 2 creates a test, while option 3 creates a pool of questions.
 
@@ -62,23 +62,23 @@ There are three options that can be changed in the included options.xlsx file. I
 
 ![options](https://github.com/Evan-Sowards/BlackBoardTestMaker/blob/34918a85628fa41bb5fffd920a4e1bbf0e50902c/pics/options.PNG?raw=true)
 
-Answer Numbering:
-1: None
-2: Arabic Numerals (1, 2, 3)
-3: Roman Numberals (I, II, III)
-4: Uppercase Letters (A, B, C)
-5: Lowercase Letters (a, b, c)
+**Answer Numbering:**
+1. None
+2. Arabic Numerals (1, 2, 3)
+3. Roman Numberals (I, II, III)
+4. Uppercase Letters (A, B, C)
+5. Lowercase Letters (a, b, c)
 
-Randomness:
-0: off
-1: on
+**Randomness:**
+0. off
+1. on
 
-Partial Credit:
-0: off
-1: on
+**Partial Credit:**
+0. off
+1. on
 
 
-NOTE: Randomness must be turned on in the options file, or the right answer will always be at the top.
+**NOTE:** Randomness must be turned on in the options file, or the right answer will always be at the top.
 
 
 ### License
